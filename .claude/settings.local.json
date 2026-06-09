@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cmux send *)",
+      "Bash(cmux send-key *)",
+      "Bash(cmux read-screen *)"
+    ]
+  }
+}

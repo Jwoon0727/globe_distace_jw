@@ -1,0 +1,171 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1780973345573,
+  "projectRoot": "/Users/jwoonsm5/Desktop/MacM5Dev/distance_globe/wireframe-dot-matrix-globe",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "next",
+        "version": "15.0.0",
+        "category": "fullstack"
+      },
+      {
+        "name": "react",
+        "version": "18.0.0",
+        "category": "frontend"
+      },
+      {
+        "name": "react-dom",
+        "version": "18.0.0",
+        "category": "frontend"
+      }
+    ],
+    "packageManager": "pnpm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "pnpm build",
+    "testCommand": null,
+    "lintCommand": "pnpm lint",
+    "devCommand": "pnpm dev",
+    "scripts": {
+      "build": "next build",
+      "dev": "next dev",
+      "lint": "next lint",
+      "start": "next start"
+    }
+  },
+  "conventions": {
+    "namingStyle": "camelCase",
+    "importStyle": "ES modules",
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "app",
+      "components",
+      "lib",
+      "public"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "app": {
+      "path": "app",
+      "purpose": "Application code",
+      "fileCount": 3,
+      "lastAccessed": 1780973345551,
+      "keyFiles": [
+        "globals.css",
+        "layout.tsx",
+        "page.tsx"
+      ]
+    },
+    "components": {
+      "path": "components",
+      "purpose": "UI components",
+      "fileCount": 2,
+      "lastAccessed": 1780973345553,
+      "keyFiles": [
+        "rotating-earth.tsx",
+        "theme-provider.tsx"
+      ]
+    },
+    "hooks": {
+      "path": "hooks",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1780973345560,
+      "keyFiles": [
+        "use-mobile.ts",
+        "use-toast.ts"
+      ]
+    },
+    "lib": {
+      "path": "lib",
+      "purpose": "Library code",
+      "fileCount": 1,
+      "lastAccessed": 1780973345560,
+      "keyFiles": [
+        "utils.ts"
+      ]
+    },
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 9,
+      "lastAccessed": 1780973345563,
+      "keyFiles": [
+        "apple-icon.png",
+        "icon-dark-32x32.png",
+        "icon-light-32x32.png",
+        "icon.svg",
+        "placeholder-logo.png"
+      ]
+    },
+    "styles": {
+      "path": "styles",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1780973345563,
+      "keyFiles": [
+        "globals.css"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "overview.md",
+      "accessCount": 10,
+      "lastAccessed": 1780977398839,
+      "type": "file"
+    },
+    {
+      "path": "app/page.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1780975163853,
+      "type": "file"
+    },
+    {
+      "path": "components/rotating-earth.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1780975164436,
+      "type": "file"
+    },
+    {
+      "path": "app/globals.css",
+      "accessCount": 1,
+      "lastAccessed": 1780975165153,
+      "type": "file"
+    },
+    {
+      "path": "package.json",
+      "accessCount": 1,
+      "lastAccessed": 1780975165534,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}
