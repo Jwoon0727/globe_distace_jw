@@ -18,12 +18,13 @@
 - **네이버 API 키 사용 안 함** → Geocoding 미사용. URL 경로에 좌표를 직접 덧붙여 네이버 지도 URL로 이동.
 - **더미주소 5개 미만** (4~5개)
 - **"회중찾기" 버튼 추가** → `<a>` 태그 링크로 hub.jw.org 집회찾기 페이지 이동. 이동 중 로그인 필요할 수 있으나 사용자가 직접 처리.
+- **"stream" 버튼 추가** → `<a target="_blank">` 링크로 `https://stream.jw.org/home` 이동. (회중찾기와 동일한 외부 링크 패턴, 글래스모피즘 버튼)
 
 ---
 
 ## 1. 목표 (Goal)
 
-회전하는 dot-matrix globe 화면 아래에서, **더미 주소 목록에서 출발지를 선택**하고 **도착 주소를 입력(자동완성)**하면, **네이버 지도 길찾기**를 새 탭으로 열어 출발→도착 경로/거리를 보여주는 단일 페이지 앱. 추가로 **회중찾기 링크 버튼** 제공. 검색 기록은 localStorage에 저장해 globe 아래 표시. 전체 UI는 글래스모피즘.
+회전하는 dot-matrix globe 화면 아래에서, **더미 주소 목록에서 출발지를 선택**하고 **도착 주소를 입력(자동완성)**하면, **네이버 지도 길찾기**를 새 탭으로 열어 출발→도착 경로/거리를 보여주는 단일 페이지 앱. 추가로 **회중찾기 / stream 외부 링크 버튼** 제공. 검색 기록은 localStorage에 저장해 globe 아래 표시. 전체 UI는 글래스모피즘.
 
 ## 2. 확정된 결정사항 (Decisions)
 
@@ -39,6 +40,7 @@
 | 좌표 → URL  | **URL 경로에 좌표 직접 조립**              |
 | 최근 검색     | **localStorage** 저장, globe 아래 표시  |
 | 회중찾기      | `**<a target="_blank">` 링크 버튼**   |
+| stream      | **`<a target="_blank">` 링크 버튼** → stream.jw.org/home |
 | 레이아웃      | **상단 globe + 하단 패널** (세로 배치)      |
 | 스타일       | **글래스모피즘**                        |
 | PWA       | **설치형 PWA로 세팅** (manifest+아이콘+SW) |
@@ -83,6 +85,15 @@
 - `<a href={URL} target="_blank" rel="noopener noreferrer">` 버튼 형태. 글래스모피즘 스타일 적용.
 - 로그인은 사용자가 직접 처리(앱에서 관여 안 함).
 
+### 4-3-1. stream 링크
+
+- 고정 URL:
+  ```
+  https://stream.jw.org/home
+  ```
+- 회중찾기와 동일한 `<a href={URL} target="_blank" rel="noopener noreferrer">` 버튼. 글래스모피즘 스타일.
+- 회중찾기 버튼과 **같은 컴포넌트(`components/external-links.tsx`)에 나란히 배치** — 두 외부 링크 버튼을 한 묶음으로 관리(파일 수 절감).
+
 ### 4-4. PWA 세팅 (푸시 알림 없음)
 
 - **목적**: 홈 화면에 설치 가능한 standalone 웹앱. **푸시/알림 기능은 포함하지 않음**(FCM·서버·토큰 저장 전부 불필요).
@@ -105,9 +116,9 @@
 - 1. **출발지 선택 UI** — `components/origin-list.tsx`: 더미 주소 칩/카드 목록, 탭 시 선택 표시(하이라이트)
 - 1. **도착지 자동완성 + 실행** — `components/distance-form.tsx`: 도착 input(더미 목록 자동완성/매칭) → 좌표 확보 → "거리측정" 버튼 → `window.open(url, "_blank")` + 최근검색 저장. 매칭 안 되면 버튼 비활성.
 - 1. **최근 검색 UI** — `components/recent-searches.tsx`: globe 아래 목록, 클릭 시 재실행, 전체삭제 버튼
-- 1. **회중찾기 버튼** — `components/congregation-link.tsx`(또는 page 내): `<a target="_blank">` 고정 링크 (4-3)
+- 1. **외부 링크 버튼(회중찾기 + stream)** — `components/external-links.tsx`: `<a target="_blank">` 고정 링크 2개를 나란히 배치 — 회중찾기(4-3) + stream(4-3-1). 글래스모피즘 버튼.
 - 1. **글래스모피즘 스타일** — `app/globals.css`에 `.glass` 유틸 추가(`backdrop-blur`, 반투명 bg, border, shadow), 패널/버튼에 적용. globe 배경과 어울리는 배경 고려
-- 1. **페이지 조립** — `app/page.tsx`: 상단 globe + 하단 패널(출발지 목록 → 도착 입력폼 → 회중찾기 버튼 → 최근검색) 세로 레이아웃, 반응형
+- 1. **페이지 조립** — `app/page.tsx`: 상단 globe + 하단 패널(출발지 목록 → 도착 입력폼 → 외부 링크 버튼[회중찾기·stream] → 최근검색) 세로 레이아웃, 반응형
 - 1. **PWA manifest + 아이콘** — `app/manifest.ts` 생성, `public/icons/` 아이콘 추가, `app/layout.tsx`에 `appleWebApp` 메타 설정 (4-4)
 - 1. **PWA service worker** — Serwist(`@serwist/next`) 설정 또는 `public/sw.js` 수동 등록. 최소 캐싱/오프라인. (4-4)
 - 1. **설치 안내 UI(선택)** — `beforeinstallprompt` 버튼 + iOS 홈화면 추가 안내 문구 (4-4)
@@ -124,7 +135,7 @@
 | `components/origin-list.tsx`       | 신규 — 출발지 선택 목록                    |
 | `components/distance-form.tsx`     | 신규 — 도착 자동완성 + 거리측정 실행            |
 | `components/recent-searches.tsx`   | 신규 — 최근검색 표시                      |
-| `components/congregation-link.tsx` | 신규 — 회중찾기 `<a>` 링크 버튼             |
+| `components/external-links.tsx`    | 신규 — 회중찾기 + stream `<a>` 링크 버튼 묶음   |
 | `app/page.tsx`                     | 수정 — 전체 레이아웃 조립                   |
 | `app/globals.css`                  | 수정 — `.glass` 유틸 추가               |
 | `app/manifest.ts`                  | 신규 — PWA manifest                 |
@@ -150,6 +161,7 @@
   - 최근검색이 globe 아래 표시되고, 새로고침 후에도 유지(localStorage)
   - 최근검색 클릭 시 재실행, 전체삭제 동작
   - 회중찾기 버튼 클릭 → hub.jw.org 새 탭 이동
+  - stream 버튼 클릭 → stream.jw.org/home 새 탭 이동
   - 글래스모피즘 스타일 적용됨
   - PWA: manifest 인식됨(브라우저 설치 가능 표시), 아이콘 노출
   - PWA: 모바일에서 "홈 화면에 추가" 가능, standalone(주소창 없이)으로 실행됨
@@ -168,6 +180,18 @@
 - 길찾기 URL: 레거시 `route.nhn` vs 신형 `p/directions` 중 실제 동작 확인
 - 더미 주소 위치 기준(서울 위주? 전국?) — 데이터 만들 때 확정
 - 회중찾기 버튼 배치 위치(상단 헤더 vs 하단 패널) — 기본: 하단 패널
+
+
+
+# 추가할기능 
+
+그리고 stream이라는 버튼을 만들어줘 여기서는 
+
+[https://stream.jw.org/home](https://stream.jw.org/home)로 이동하게 해줘 
+
+> ✅ **반영 완료** — 위 stream 버튼 요구사항은 본문 계획에 통합됨:
+> 0-1(Revisions), 2(Decisions 표), 4-3-1(stream 링크 로직), 5(구현 단계 — `external-links.tsx`), 6(영향 파일), 7(검증).
+> 회중찾기와 동일한 외부 링크 패턴이라 `components/external-links.tsx` 한 컴포넌트에 두 버튼을 묶었음.
 
 
 

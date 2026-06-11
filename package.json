@@ -25,6 +25,9 @@
     "tailwindcss-animate": "1.0.7",
     "tw-animate-css": "latest"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": ["sharp"]
+  },
   "devDependencies": {
     "@types/node": "^20.0.0",
     "@types/react": "^18.0.0",
