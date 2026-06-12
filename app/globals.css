@@ -121,8 +121,17 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    background-color: #000000;
+  }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-black text-white;
+    min-height: 100dvh;
+    /* PWA standalone: notch/status bar 영역까지 검정 유지 */
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }
 

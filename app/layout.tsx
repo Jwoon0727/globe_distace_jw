@@ -9,6 +9,8 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   themeColor: '#000000',
+  colorScheme: 'dark',
+  viewportFit: 'cover',
 }
 
 export const metadata: Metadata = {
@@ -34,8 +36,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
-      <body className={`${GeistSans.className} antialiased`}>
+    <html lang="ko" className={`${GeistSans.variable} ${GeistMono.variable} bg-black`}>
+      <body className={`${GeistSans.className} antialiased bg-black text-white`}>
         {children}
         <PwaRegister />
         {process.env.NODE_ENV === 'production' && <Analytics />}
