@@ -14,6 +14,25 @@ export function buildNaverRouteUrl(origin: Place, destText: string): string {
   return `https://map.naver.com/p/directions/${start}/${goal}/-/car`
 }
 
+// 출발지·도착지 모두 좌표가 있을 때 — PC/모바일 모두 정상 동작(둘 다 자동 입력).
+export function buildNaverRouteUrlWithCoords(
+  origin: Place,
+  destName: string,
+  destLng: number,
+  destLat: number,
+): string {
+  const sname = encodeURIComponent(origin.name)
+  const ename = encodeURIComponent(destName)
+  const start = `${origin.lng},${origin.lat},${sname},,`
+  const goal = `${destLng},${destLat},${ename},,`
+  return `https://map.naver.com/p/directions/${start}/${goal}/-/car`
+}
+
+// 좌표를 못 구했을 때 폴백: 도착지를 지도에서 검색(좌표 불필요, 모바일 안전).
+export function buildNaverSearchUrl(query: string): string {
+  return `https://map.naver.com/p/search/${encodeURIComponent(query)}`
+}
+
 // 모바일: 좌표 없는 도착지(`,,이름,,`)는 네이버 서버를 크래시시킨다.
 // 좌표가 없는 지점은 `-`(미지정)로 표현해야 하므로, 출발지(좌표 보유)만 채우고
 // 도착지는 미지정으로 둔 길찾기 URL을 만든다 → 선택한 출발지가 그대로 넘어간다.
