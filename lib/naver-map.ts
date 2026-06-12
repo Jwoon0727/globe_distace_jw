@@ -14,10 +14,13 @@ export function buildNaverRouteUrl(origin: Place, destText: string): string {
   return `https://map.naver.com/p/directions/${start}/${goal}/-/car`
 }
 
-// 도착지 좌표가 없으면 모바일 길찾기 URL이 크래시하므로,
-// 모바일에서는 길찾기 대신 도착지를 지도에서 검색하는 URL로 폴백한다.
-export function buildNaverSearchUrl(query: string): string {
-  return `https://map.naver.com/p/search/${encodeURIComponent(query)}`
+// 모바일: 좌표 없는 도착지(`,,이름,,`)는 네이버 서버를 크래시시킨다.
+// 좌표가 없는 지점은 `-`(미지정)로 표현해야 하므로, 출발지(좌표 보유)만 채우고
+// 도착지는 미지정으로 둔 길찾기 URL을 만든다 → 선택한 출발지가 그대로 넘어간다.
+export function buildNaverRouteUrlOriginOnly(origin: Place): string {
+  const sname = encodeURIComponent(origin.name)
+  const start = `${origin.lng},${origin.lat},${sname},,`
+  return `https://map.naver.com/p/directions/${start}/-/-/car`
 }
 
 export function isMobileDevice(): boolean {
