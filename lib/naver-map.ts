@@ -13,3 +13,16 @@ export function buildNaverRouteUrl(origin: Place, destText: string): string {
 
   return `https://map.naver.com/p/directions/${start}/${goal}/-/car`
 }
+
+// 도착지 좌표가 없으면 모바일 길찾기 URL이 크래시하므로,
+// 모바일에서는 길찾기 대신 도착지를 지도에서 검색하는 URL로 폴백한다.
+export function buildNaverSearchUrl(query: string): string {
+  return `https://map.naver.com/p/search/${encodeURIComponent(query)}`
+}
+
+export function isMobileDevice(): boolean {
+  if (typeof navigator === "undefined") return false
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(
+    navigator.userAgent,
+  )
+}

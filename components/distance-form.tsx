@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { buildNaverRouteUrl } from "@/lib/naver-map"
+import { buildNaverRouteUrl, buildNaverSearchUrl, isMobileDevice } from "@/lib/naver-map"
 import { useRecentSearches } from "@/hooks/use-recent-searches"
 import type { Place } from "@/lib/types"
 import { cn } from "@/lib/utils"
@@ -18,9 +18,14 @@ export default function DistanceForm({ origin }: Props) {
 
   function handleSearch() {
     if (!origin || !destText.trim()) return
-    const url = buildNaverRouteUrl(origin, destText.trim())
+    const dest = destText.trim()
+    // 도착지 좌표가 없어 모바일 길찾기 URL이 크래시하므로,
+    // 모바일에서는 도착지 검색 URL로 폴백한다(자동 길찾기는 미지원).
+    const url = isMobileDevice()
+      ? buildNaverSearchUrl(dest)
+      : buildNaverRouteUrl(origin, dest)
     window.open(url, "_blank", "noopener,noreferrer")
-    add({ origin, destText: destText.trim(), url })
+    add({ origin, destText: dest, url })
   }
 
   return (

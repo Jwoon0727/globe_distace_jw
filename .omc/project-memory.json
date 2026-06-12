@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1781067641821,
+  "lastScanned": 1781247683883,
   "projectRoot": "/Users/jwoonsm5/Desktop/MacM5Dev/distance_globe/wireframe-dot-matrix-globe",
   "techStack": {
     "languages": [
@@ -24,7 +24,7 @@
     "frameworks": [
       {
         "name": "next",
-        "version": "15.0.0",
+        "version": "15.5.19",
         "category": "fullstack"
       },
       {
@@ -42,7 +42,7 @@
     "runtime": null
   },
   "build": {
-    "buildCommand": "cmux send --surface surface:2 '루트의 overview.md와 BUILD_STEPS.md 두 계획서를 먼저 읽고, BUILD_STEPS.md의 Phase 0부터 순서대로 그대로 구현해줘. 규칙: (1) components/rotating-earth.tsx는 절대 수정하지 말 것(재사용). (2) 각 Phase 끝의 ✔게이트를 확인하고 다음 Phase로 진행. (3) Phase 2까지 끝나면 pnpm build로 한번 확인. (4) 네이버 API/푸시알림은 범위 밖이니 구현하지 말 것. (5) 회중찾기+stream은 components/external-links.tsx 한 파일에 묶을 것. 지금 바로 Phase 0(lib/types.ts, lib/dummy-addresses.ts, lib/naver-map.ts, hooks/use-recent-searches.ts)부터 시작해줘.' 2>&1",
+    "buildCommand": "env -u TMUX ANTHROPIC_MODEL=claude-sonnet-4-6 CMUX_SURFACE_ID=\"$CMUX_SURFACE_ID\" omc team 1:claude:executor \"구현 전담 워커. 메인 pane(리더)이 전달하는 구현 계획/플랜에 따라 기능을 구현·수정한다. 플랜을 받기 전까지는 대기하고, 리더가 태스크/메시지로 전달하는 범위만 구현한다. 프로젝트: wireframe-dot-matrix-globe (Next.js, pnpm). 빌드=pnpm build, 린트=pnpm lint.\" --no-decompose 2>&1 | tail -30",
     "testCommand": null,
     "lintCommand": "pnpm lint",
     "devCommand": "pnpm dev",
@@ -60,7 +60,7 @@
     "fileOrganization": null
   },
   "structure": {
-    "isMonorepo": false,
+    "isMonorepo": true,
     "workspaces": [],
     "mainDirectories": [
       "app",
@@ -76,7 +76,7 @@
       "path": "app",
       "purpose": "Application code",
       "fileCount": 3,
-      "lastAccessed": 1781067641807,
+      "lastAccessed": 1781247683868,
       "keyFiles": [
         "globals.css",
         "layout.tsx",
@@ -86,29 +86,36 @@
     "components": {
       "path": "components",
       "purpose": "UI components",
-      "fileCount": 2,
-      "lastAccessed": 1781067641811,
+      "fileCount": 6,
+      "lastAccessed": 1781247683869,
       "keyFiles": [
-        "rotating-earth.tsx",
-        "theme-provider.tsx"
+        "distance-form.tsx",
+        "external-links.tsx",
+        "origin-list.tsx",
+        "recent-searches.tsx",
+        "rotating-earth.tsx"
       ]
     },
     "hooks": {
       "path": "hooks",
       "purpose": null,
-      "fileCount": 2,
-      "lastAccessed": 1781067641811,
+      "fileCount": 3,
+      "lastAccessed": 1781247683871,
       "keyFiles": [
         "use-mobile.ts",
+        "use-recent-searches.ts",
         "use-toast.ts"
       ]
     },
     "lib": {
       "path": "lib",
       "purpose": "Library code",
-      "fileCount": 1,
-      "lastAccessed": 1781067641812,
+      "fileCount": 4,
+      "lastAccessed": 1781247683872,
       "keyFiles": [
+        "dummy-addresses.ts",
+        "naver-map.ts",
+        "types.ts",
         "utils.ts"
       ]
     },
@@ -116,7 +123,7 @@
       "path": "public",
       "purpose": "Public files",
       "fileCount": 9,
-      "lastAccessed": 1781067641813,
+      "lastAccessed": 1781247683872,
       "keyFiles": [
         "apple-icon.png",
         "icon-dark-32x32.png",
@@ -129,91 +136,12 @@
       "path": "styles",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1781067641813,
+      "lastAccessed": 1781247683873,
       "keyFiles": [
         "globals.css"
       ]
     }
   },
-  "hotPaths": [
-    {
-      "path": "overview.md",
-      "accessCount": 21,
-      "lastAccessed": 1781068368744,
-      "type": "file"
-    },
-    {
-      "path": "app/page.tsx",
-      "accessCount": 5,
-      "lastAccessed": 1781068759076,
-      "type": "file"
-    },
-    {
-      "path": "package.json",
-      "accessCount": 3,
-      "lastAccessed": 1781068478520,
-      "type": "file"
-    },
-    {
-      "path": "app/globals.css",
-      "accessCount": 3,
-      "lastAccessed": 1781068583818,
-      "type": "file"
-    },
-    {
-      "path": "lib/naver-map.ts",
-      "accessCount": 3,
-      "lastAccessed": 1781069623683,
-      "type": "file"
-    },
-    {
-      "path": "BUILD_STEPS.md",
-      "accessCount": 2,
-      "lastAccessed": 1781068369088,
-      "type": "file"
-    },
-    {
-      "path": "lib/types.ts",
-      "accessCount": 2,
-      "lastAccessed": 1781069266097,
-      "type": "file"
-    },
-    {
-      "path": "components/recent-searches.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1781069288915,
-      "type": "file"
-    },
-    {
-      "path": "components/rotating-earth.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1780975164436,
-      "type": "file"
-    },
-    {
-      "path": "lib/dummy-addresses.ts",
-      "accessCount": 1,
-      "lastAccessed": 1781068439450,
-      "type": "file"
-    },
-    {
-      "path": "hooks/use-recent-searches.ts",
-      "accessCount": 1,
-      "lastAccessed": 1781068442409,
-      "type": "file"
-    },
-    {
-      "path": "components/origin-list.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1781068623840,
-      "type": "file"
-    },
-    {
-      "path": "components/external-links.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1781068703506,
-      "type": "file"
-    }
-  ],
+  "hotPaths": [],
   "userDirectives": []
 }

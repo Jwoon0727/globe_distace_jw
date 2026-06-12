@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"echo \\\"=== display-message ===\\\"; tmux display-message -p '#S:#I.#P pane=#{pane_id}' 2>&1; echo \\\"=== list-panes ===\\\"; tmux list-panes -F '#{pane_id} #{pane_index} #{pane_current_command}...",
+  "error": "Exit code 1\n=== display-message ===\n#S:#I.#P pane=%1CE3E5C7-2331-4DF1-94C1-D6C5EA494B3E\n=== list-panes ===\n%1CE3E5C7-2331-4DF1-94C1-D6C5EA494B3E 0\n%0680F5FF-FFB9-4067-878A-5240A39F68ED 1\n=== list-sessions ===\nError: Unsupported tmux compatibility command: list-sessions",
+  "timestamp": "2026-06-12T07:08:37.038Z",
+  "retry_count": 1
+}

@@ -1,0 +1,10 @@
+{
+  "id": "1",
+  "subject": "구현 전담 워커. 메인 pane(리더)이 전달하는 구현 계획/플랜에 따라 기능을 구현·수정한다. 플랜을 받기 전까지는 대기하고, 리더가 태스크/",
+  "description": "구현 전담 워커. 메인 pane(리더)이 전달하는 구현 계획/플랜에 따라 기능을 구현·수정한다. 플랜을 받기 전까지는 대기하고, 리더가 태스크/메시지로 전달하는 범위만 구현한다. 프로젝트: wireframe-dot-matrix-globe (Next.js, pnpm). 빌드=pnpm build, 린트=pnpm lint.",
+  "status": "pending",
+  "owner": null,
+  "result": null,
+  "role": "executor",
+  "created_at": "2026-06-12T07:08:53.224Z"
+}
