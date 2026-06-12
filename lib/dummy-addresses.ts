@@ -3,18 +3,18 @@ import type { Place } from "./types"
 export const DUMMY_ADDRESSES: Place[] = [
   {
     id: "1",
-    name: "서울역",
-    address: "서울특별시 중구 통일로 1",
-    lng: 126.9726,
-    lat: 37.5547,
-  },
+    name: "백석(jw)",
+    address: "충남 천안시 서북구 성성1길 121",
+    lng: 127.14268,
+    lat: 36.83948,
+  }, 
   {
     id: "2",
-    name: "강남역",
-    address: "서울특별시 강남구 강남대로 396",
-    lng: 127.0276,
-    lat: 37.4979,
-  },
+    name: "우리집",
+    address: "천안시 서북구 한들2로 88",
+    lng: 127.12063,
+    lat: 36.82951,
+  }, 
   {
     id: "3",
     name: "홍대입구역",
