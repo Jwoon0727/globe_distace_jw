@@ -12,8 +12,8 @@ export default function Home() {
   const [origin, setOrigin] = useState<Place | null>(null)
 
   return (
-    <main className="min-h-screen bg-black flex flex-col items-center">
-      <div className="w-full flex justify-center">
+    <main className="min-h-screen bg-black flex flex-col items-center overflow-x-hidden">
+      <div className="w-full flex justify-center px-2">
         <RotatingEarth
           width={1100}
           height={900}
@@ -67,7 +67,7 @@ export default function Home() {
         />
       </div>
 
-      <div className="w-full max-w-lg px-4 pb-16 -mt-8 flex flex-col gap-4">
+      <div className="w-full max-w-lg px-4 pb-16 -mt-4 sm:-mt-8 flex flex-col gap-4">
         <div className="glass rounded-2xl p-5">
           <OriginList value={origin} onChange={setOrigin} />
         </div>

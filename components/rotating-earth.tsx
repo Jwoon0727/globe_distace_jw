@@ -44,10 +44,16 @@ export default function RotatingEarth({
     const context = canvas.getContext("2d")
     if (!context) return
 
-    // Set up responsive dimensions
-    const containerWidth = Math.min(width, window.innerWidth - 40)
-    const containerHeight = Math.min(height, window.innerHeight - 100)
+    // Set up responsive dimensions — clamp to viewport, keep roughly square on mobile
+    const maxWidth = window.innerWidth - 32
+    const containerWidth = Math.min(width, maxWidth)
+    const containerHeight = Math.min(height, containerWidth, window.innerHeight - 80)
     const radius = Math.min(containerWidth, containerHeight) / 2.5
+
+    // Zoom limits (relative to the base radius) — prevent infinite zoom in/out
+    const MIN_SCALE = radius * 0.8
+    const MAX_SCALE = radius * 2.5
+    const clampScale = (s: number) => Math.max(MIN_SCALE, Math.min(MAX_SCALE, s))
 
     const dpr = window.devicePixelRatio || 1
     canvas.width = containerWidth * dpr
@@ -474,13 +480,80 @@ export default function RotatingEarth({
     const handleWheel = (event: WheelEvent) => {
       event.preventDefault()
       const scaleFactor = event.deltaY > 0 ? 0.9 : 1.1
-      const newRadius = Math.max(radius * 0.5, Math.min(radius * 3, projection.scale() * scaleFactor))
+      const newRadius = clampScale(projection.scale() * scaleFactor)
       projection.scale(newRadius)
       render()
     }
 
+    // --- Touch support (single-finger rotate, two-finger pinch zoom) ---
+    let touchMode: "none" | "rotate" | "pinch" = "none"
+    let touchStartX = 0
+    let touchStartY = 0
+    let touchStartRotation: [number, number] = [0, 0]
+    let pinchStartDist = 0
+    let pinchStartScale = 0
+
+    const touchDistance = (a: Touch, b: Touch) =>
+      Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY)
+
+    const beginRotate = (touch: Touch) => {
+      touchMode = "rotate"
+      touchStartX = touch.clientX
+      touchStartY = touch.clientY
+      touchStartRotation = [...rotation]
+    }
+
+    const handleTouchStart = (event: TouchEvent) => {
+      autoRotate = false
+      if (event.touches.length === 1) {
+        beginRotate(event.touches[0])
+      } else if (event.touches.length === 2) {
+        touchMode = "pinch"
+        pinchStartDist = touchDistance(event.touches[0], event.touches[1])
+        pinchStartScale = projection.scale()
+      }
+    }
+
+    const handleTouchMove = (event: TouchEvent) => {
+      event.preventDefault()
+      if (touchMode === "rotate" && event.touches.length === 1) {
+        const sensitivity = 0.5
+        const dx = event.touches[0].clientX - touchStartX
+        const dy = event.touches[0].clientY - touchStartY
+        rotation[0] = touchStartRotation[0] + dx * sensitivity
+        rotation[1] = touchStartRotation[1] - dy * sensitivity
+        rotation[1] = Math.max(-90, Math.min(90, rotation[1]))
+        projection.rotate(rotation)
+        render()
+      } else if (touchMode === "pinch" && event.touches.length === 2) {
+        const dist = touchDistance(event.touches[0], event.touches[1])
+        if (pinchStartDist > 0) {
+          const factor = dist / pinchStartDist
+          const newRadius = clampScale(pinchStartScale * factor)
+          projection.scale(newRadius)
+          render()
+        }
+      }
+    }
+
+    const handleTouchEnd = (event: TouchEvent) => {
+      if (event.touches.length === 0) {
+        touchMode = "none"
+        setTimeout(() => {
+          autoRotate = true
+        }, 10)
+      } else if (event.touches.length === 1) {
+        // pinch released to one finger → continue rotating from the remaining touch
+        beginRotate(event.touches[0])
+      }
+    }
+
     canvas.addEventListener("mousedown", handleMouseDown)
-    canvas.addEventListener("wheel", handleWheel)
+    canvas.addEventListener("wheel", handleWheel, { passive: false })
+    canvas.addEventListener("touchstart", handleTouchStart, { passive: false })
+    canvas.addEventListener("touchmove", handleTouchMove, { passive: false })
+    canvas.addEventListener("touchend", handleTouchEnd)
+    canvas.addEventListener("touchcancel", handleTouchEnd)
 
     // Load the world data
     loadWorldData()
@@ -490,6 +563,10 @@ export default function RotatingEarth({
       rotationTimer.stop()
       canvas.removeEventListener("mousedown", handleMouseDown)
       canvas.removeEventListener("wheel", handleWheel)
+      canvas.removeEventListener("touchstart", handleTouchStart)
+      canvas.removeEventListener("touchmove", handleTouchMove)
+      canvas.removeEventListener("touchend", handleTouchEnd)
+      canvas.removeEventListener("touchcancel", handleTouchEnd)
     }
   }, [width, height])
 
@@ -505,13 +582,12 @@ export default function RotatingEarth({
   }
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative flex justify-center ${className}`}>
       <canvas
         ref={canvasRef}
-        className="w-full h-auto rounded-2xl bg-background dark"
-        style={{ maxWidth: "100%", height: "auto" }}
+        className="h-auto max-w-full rounded-2xl bg-background dark"
+        style={{ touchAction: "none" }}
       />
-    
     </div>
   )
 }
