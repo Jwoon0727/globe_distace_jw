@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1781247683883,
+  "lastScanned": 1781490309403,
   "projectRoot": "/Users/jwoonsm5/Desktop/MacM5Dev/distance_globe/wireframe-dot-matrix-globe",
   "techStack": {
     "languages": [
@@ -42,7 +42,7 @@
     "runtime": null
   },
   "build": {
-    "buildCommand": "env -u TMUX ANTHROPIC_MODEL=claude-sonnet-4-6 CMUX_SURFACE_ID=\"$CMUX_SURFACE_ID\" omc team 1:claude:executor \"구현 전담 워커. 메인 pane(리더)이 전달하는 구현 계획/플랜에 따라 기능을 구현·수정한다. 플랜을 받기 전까지는 대기하고, 리더가 태스크/메시지로 전달하는 범위만 구현한다. 프로젝트: wireframe-dot-matrix-globe (Next.js, pnpm). 빌드=pnpm build, 린트=pnpm lint.\" --no-decompose 2>&1 | tail -30",
+    "buildCommand": "npx tsc --noEmit 2>&1 | head -30; echo \"=== tsc exit: $? ===\"; echo \"=== diff ===\"; git --no-pager diff components/rotating-earth.tsx",
     "testCommand": null,
     "lintCommand": "pnpm lint",
     "devCommand": "pnpm dev",
@@ -75,32 +75,33 @@
     "app": {
       "path": "app",
       "purpose": "Application code",
-      "fileCount": 3,
-      "lastAccessed": 1781247683868,
+      "fileCount": 4,
+      "lastAccessed": 1781490309381,
       "keyFiles": [
         "globals.css",
         "layout.tsx",
+        "manifest.ts",
         "page.tsx"
       ]
     },
     "components": {
       "path": "components",
       "purpose": "UI components",
-      "fileCount": 6,
-      "lastAccessed": 1781247683869,
+      "fileCount": 7,
+      "lastAccessed": 1781490309381,
       "keyFiles": [
         "distance-form.tsx",
         "external-links.tsx",
         "origin-list.tsx",
-        "recent-searches.tsx",
-        "rotating-earth.tsx"
+        "pwa-register.tsx",
+        "recent-searches.tsx"
       ]
     },
     "hooks": {
       "path": "hooks",
       "purpose": null,
       "fileCount": 3,
-      "lastAccessed": 1781247683871,
+      "lastAccessed": 1781490309389,
       "keyFiles": [
         "use-mobile.ts",
         "use-recent-searches.ts",
@@ -110,10 +111,11 @@
     "lib": {
       "path": "lib",
       "purpose": "Library code",
-      "fileCount": 4,
-      "lastAccessed": 1781247683872,
+      "fileCount": 5,
+      "lastAccessed": 1781490309396,
       "keyFiles": [
         "dummy-addresses.ts",
+        "geocode.ts",
         "naver-map.ts",
         "types.ts",
         "utils.ts"
@@ -122,26 +124,81 @@
     "public": {
       "path": "public",
       "purpose": "Public files",
-      "fileCount": 9,
-      "lastAccessed": 1781247683872,
+      "fileCount": 7,
+      "lastAccessed": 1781490309397,
       "keyFiles": [
         "apple-icon.png",
-        "icon-dark-32x32.png",
-        "icon-light-32x32.png",
-        "icon.svg",
-        "placeholder-logo.png"
+        "icon-192.png",
+        "icon-512.png",
+        "placeholder.jpg",
+        "placeholder.svg"
       ]
     },
     "styles": {
       "path": "styles",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1781247683873,
+      "lastAccessed": 1781490309397,
       "keyFiles": [
         "globals.css"
       ]
     }
   },
-  "hotPaths": [],
+  "hotPaths": [
+    {
+      "path": "components/rotating-earth.tsx",
+      "accessCount": 8,
+      "lastAccessed": 1781491184828,
+      "type": "file"
+    },
+    {
+      "path": "fix.md",
+      "accessCount": 3,
+      "lastAccessed": 1781491103149,
+      "type": "file"
+    },
+    {
+      "path": "app/page.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1781490785200,
+      "type": "file"
+    },
+    {
+      "path": "package.json",
+      "accessCount": 1,
+      "lastAccessed": 1781490424444,
+      "type": "file"
+    },
+    {
+      "path": "components/origin-list.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1781490438079,
+      "type": "file"
+    },
+    {
+      "path": "lib/types.ts",
+      "accessCount": 1,
+      "lastAccessed": 1781490443712,
+      "type": "file"
+    },
+    {
+      "path": "lib/dummy-addresses.ts",
+      "accessCount": 1,
+      "lastAccessed": 1781490444094,
+      "type": "file"
+    },
+    {
+      "path": "lib/naver-map.ts",
+      "accessCount": 1,
+      "lastAccessed": 1781490444419,
+      "type": "file"
+    },
+    {
+      "path": "hooks/use-mobile.ts",
+      "accessCount": 1,
+      "lastAccessed": 1781491062326,
+      "type": "file"
+    }
+  ],
   "userDirectives": []
 }

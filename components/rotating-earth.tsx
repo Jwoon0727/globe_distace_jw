@@ -45,17 +45,21 @@ export default function RotatingEarth({
     if (!context) return
 
     // Set up responsive dimensions — clamp to viewport, keep roughly square on mobile
+    const isMobileViewport = window.innerWidth < 768
     const maxWidth = window.innerWidth - 32
     const containerWidth = Math.min(width, maxWidth)
     const containerHeight = Math.min(height, containerWidth, window.innerHeight - 80)
-    const radius = Math.min(containerWidth, containerHeight) / 2.5
+    // Slightly smaller globe on mobile (zoom out)
+    const radius = Math.min(containerWidth, containerHeight) / (isMobileViewport ? 3.1 : 2.5)
 
     // Zoom limits (relative to the base radius) — prevent infinite zoom in/out
     const MIN_SCALE = radius * 0.8
     const MAX_SCALE = radius * 2.5
     const clampScale = (s: number) => Math.max(MIN_SCALE, Math.min(MAX_SCALE, s))
 
-    const dpr = window.devicePixelRatio || 1
+    // Cap DPR on mobile to reduce per-frame fill cost (smoother rotation)
+    const rawDpr = window.devicePixelRatio || 1
+    const dpr = isMobileViewport ? Math.min(rawDpr, 2) : rawDpr
     canvas.width = containerWidth * dpr
     canvas.height = containerHeight * dpr
     canvas.style.width = `${containerWidth}px`
@@ -413,7 +417,8 @@ export default function RotatingEarth({
         // Generate dots for all land features
         let totalDots = 0
         landFeatures.features.forEach((feature: any) => {
-          const dots = generateDotsInPolygon(feature, 16)
+          // Fewer dots on mobile → fewer per-frame projections (less jank)
+          const dots = generateDotsInPolygon(feature, isMobileViewport ? 22 : 16)
           dots.forEach(([lng, lat]) => {
             allDots.push({ lng, lat, visible: true })
             totalDots++

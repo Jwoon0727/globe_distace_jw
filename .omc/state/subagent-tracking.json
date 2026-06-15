@@ -1,0 +1,26 @@
+{
+  "agents": [
+    {
+      "agent_id": "a954972890cc817f8",
+      "agent_type": "claude",
+      "started_at": "2026-06-15T02:29:03.325Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-06-15T02:29:46.252Z",
+      "duration_ms": 42927
+    },
+    {
+      "agent_id": "af9b798be9650b3a4",
+      "agent_type": "claude",
+      "started_at": "2026-06-15T02:40:44.624Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-06-15T02:41:12.566Z",
+      "duration_ms": 27942
+    }
+  ],
+  "total_spawned": 5,
+  "total_completed": 45,
+  "total_failed": 0,
+  "last_updated": "2026-06-15T02:44:22.704Z"
+}
